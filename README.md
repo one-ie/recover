@@ -69,7 +69,7 @@ double-click it. Same four v1 and four v2 addresses the CLI prints, from the sam
 code, with nothing to install and nothing to fetch.
 
 ```bash
-open packages/recover/dist/page.html     # or drag it into any browser
+open dist/page.html     # from this folder — or drag it into any browser
 ```
 
 It is **committed** (137KB), so there is nothing to build before you can use it
@@ -113,7 +113,7 @@ fall back to generating a wallet when recovery fails.
 ## Accept
 
 ```bash
-cd packages/recover && bun test
+bun test     # from this folder (packages/recover in the ONE monorepo)
 ```
 
 63 tests, network disabled. The throwing `fetch` / `XMLHttpRequest` /
