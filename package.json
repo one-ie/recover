@@ -1,0 +1,35 @@
+{
+  "name": "@oneie/recover",
+  "version": "0.1.0",
+  "description": "The offline recovery tool — words or a vault file in; four addresses, balances and a signer out. No ONE server in the path.",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "files": [
+    "dist/cli.js",
+    "dist/recover.js",
+    "dist/page.html",
+    "LICENSE",
+    "README.md"
+  ],
+  "bin": {
+    "one-recover": "./dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/recover.js"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build:page": "bun scripts/build-page.ts",
+    "build:cli": "bun scripts/build-cli.ts",
+    "prepack": "bun run build:cli"
+  },
+  "devDependencies": {
+    "@oneie/sdk": "^0.16.0",
+    "@types/node": "^22",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

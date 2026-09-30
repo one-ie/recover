@@ -1,0 +1,6 @@
+# The accept command is exactly `cd packages/recover && bun test`, so the
+# no-network guard has to arm itself from here rather than from a flag a runner
+# might forget. preload runs BEFORE the first import of anything under test,
+# which is the whole point: a `beforeAll` cannot see an import-time fetch.
+[test]
+preload = ["./test/no-network.ts"]

@@ -1,0 +1,112 @@
+<!doctype html>
+<!--
+  page.html — the offline recovery tool as one file you can open from a USB
+  stick with no internet, no server and no install.
+
+  THIS FILE IS THE TEMPLATE, not the page. `bun run build:page` fills the two
+  markers below and writes dist/page.html — ONE file, with the whole tool inlined
+  and a Content-Security-Policy that names the hash of the code it will run.
+  Nothing is fetched: no remote import, no font from elsewhere, no tracker, no
+  beacon. Your words are read into a variable in this tab and go nowhere.
+
+  Free ONE License — one obligation: "Don't remove the ONE brand, logo, and
+  link to https://one.ie/ from the deployed product."
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <!-- Written by build-page.ts: deny everything, then allow exactly this
+         bundle by hash and nothing else. One byte changes and the browser
+         refuses to run it. -->
+    <meta http-equiv="Content-Security-Policy" content="__CSP__" />
+    <title>ONE — offline key recovery</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body { font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; }
+      h1 { font-size: 1.15rem; }
+      h2 { font-size: 0.95rem; margin: 1.2rem 0 0.4rem; }
+      textarea, input, select, button { font: inherit; padding: 0.4rem; width: 100%; box-sizing: border-box; }
+      button { width: auto; cursor: pointer; }
+      .row { display: flex; gap: 0.75rem; align-items: baseline; }
+      .chain { width: 3rem; opacity: 0.7; }
+      code { word-break: break-all; }
+      .note, footer { opacity: 0.75; font-size: 0.85rem; }
+      #err { color: #b00020; white-space: pre-wrap; }
+      fieldset { border: 1px solid currentColor; opacity: 0.95; margin: 1rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>ONE — offline key recovery</h1>
+    <p class="note">
+      This page runs entirely on your machine. Disconnect from the network first if you like; recovery
+      does not need it. Your 24 words stay in this tab.
+    </p>
+
+    <noscript><p id="err">This page needs JavaScript. It still needs no network.</p></noscript>
+
+    <fieldset>
+      <legend>Your 24 words</legend>
+      <textarea id="phrase" rows="3" autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="word word word … (24 words)"></textarea>
+      <p>
+        <label>Show
+          <select id="derivation">
+            <option value="both">both address sets</option>
+            <option value="v1">v1 only (original ONE derivation)</option>
+            <option value="v2">v2 only (standard paths)</option>
+          </select>
+        </label>
+        <button id="go" type="button">Recover addresses</button>
+      </p>
+      <p class="note">
+        A key minted before the standard-paths ruling has <strong>v1</strong> addresses; a key minted
+        after has <strong>v2</strong>. Send only to the set your key actually owns — the two are
+        different addresses and money sent to the wrong one is not yours to move.
+      </p>
+    </fieldset>
+
+    <p id="err"></p>
+    <div id="out"></div>
+
+    <fieldset>
+      <legend>Balance (optional — an endpoint you name)</legend>
+      <p class="note">
+        There is no default endpoint and no ONE server is used. Type a public node you trust; only the
+        public address above is sent to it.
+      </p>
+      <p>
+        <select id="rpcChain">
+          <option value="sui">sui</option>
+          <option value="evm">evm</option>
+          <option value="sol">sol</option>
+          <option value="btc">btc (Esplora REST base)</option>
+        </select>
+      </p>
+      <p><input id="rpc" type="url" placeholder="https://your-node.example/rpc" autocomplete="off" /></p>
+      <p><button id="balgo" type="button">Read balance</button></p>
+      <p id="bal"></p>
+    </fieldset>
+
+    <p class="note">
+      This file carries its own code — there is nothing beside it to lose and nothing to fetch.
+      It is built offline with <code>bun run build:page</code> in <code>packages/recover</code>, and the
+      derivation is written down in <code>text/key-derivation-spec.md</code> — anyone can reimplement
+      this from that page alone.
+    </p>
+
+    <footer>
+      <p>
+        <strong>ONE</strong> — <a href="https://one.ie" rel="noreferrer">https://one.ie</a> — the ONE coin on Sui.
+      </p>
+      <p>
+        Free ONE License, one obligation: “Don't remove the ONE brand, logo, and link to
+        https://one.ie/ from the deployed product.” Your key is yours either way: independence is a
+        property of the key, not a promise from us.
+      </p>
+    </footer>
+
+    <!-- __BUNDLE__ -->
+  </body>
+</html>

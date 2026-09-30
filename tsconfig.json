@@ -1,0 +1,21 @@
+{
+  // `test/` is excluded on purpose: it imports `bun:test`, whose types ship with
+  // the bun runtime and are not an installed dependency here. `bun test` is the
+  // ACCEPT and typechecks nothing — tsc covers the code the tool actually runs.
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    // THE SHARED dist IS A RACE. packages/sdk/dist is a symlink every worktree
+    // shares, and a neighbour rebuilding it from a branch without C6 replaces
+    // the v2 surface this tool needs — measured 2026-09-21, mid-build: the
+    // accept went from 21/21 to "Export named 'readDerivation' not found".
+    // Resolving @oneie/sdk from the SIBLING SOURCE in this tree makes the tool
+    // depend on the code it is versioned with, not on whoever built last. The
+    // import statements stay canonical, so a published consumer resolves
+    // node_modules exactly as before.
+    "paths": { "@oneie/sdk/*": ["../sdk/src/*.ts"] },
+    "lib": ["ES2022", "DOM"],
+    "noEmit": true
+  },
+  "include": ["src/**/*"]
+}

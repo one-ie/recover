@@ -1,0 +1,16 @@
+# dist/ is generated — EXCEPT page.html, which is the deliverable: the whole
+# recovery tool as one committed file a holder can open from a USB stick. An
+# ignored artifact is a 404 for everyone but the machine that built it, which is
+# the defect C7b exists to remove.
+#
+# THE FIRST LINE IS NOT DECORATION. packages/.gitignore (one level up) excludes
+# `dist/` as a DIRECTORY, and git does not descend into an excluded directory —
+# so a bare `!dist/page.html` here is inert and the artifact stays invisible.
+# Re-including the directory, then ignoring its contents, then re-including the
+# one file, is the only ordering that works. Check it the way that cannot be
+# misread: `git ls-files dist/page.html` prints the path once it is committed.
+# test/page-bundle.test.ts asserts exactly that, because a negated
+# `git check-ignore -v` still exits 0 and reads like an ignore.
+!dist/
+dist/*
+!dist/page.html
